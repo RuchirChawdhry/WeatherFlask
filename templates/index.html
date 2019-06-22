@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP:300&display=swap" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+    <title>Weather Info!</title>
+<style>
+    #nav1
+    {  
+        opacity: 0.85; 
+        filter:(opacity=85);       
+    }
+    #nav-brand1
+    {
+        font-family: 'Noto Sans JP';
+    }
+</style>
+<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+
+</head>
+<body>
+<!-- Navigation Bar -->
+<nav class="navbar is-warning" role="navigation" aria-label="main navigation" id="nav1">
+        <div class="navbar-brand" id="nav-brand1">
+          <!-- <a class="navbar-item" href="https://bulma.io">
+            <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+          </a> -->
+          <a href="/" class="navbar-item"><h1 class="title is-4 has-text-weight-light">WeatherPro</h1></a>
+
+          <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+      
+        <div id="navbarBasicExample" class="navbar-menu">
+          <div class="navbar-start">
+            <a class="navbar-item">
+              Search
+            </a>
+      
+            <a class="navbar-item">
+              Today
+            </a>
+      
+                <a class="navbar-item">
+                  5-Day Forecast
+                </a>
+                <a class="navbar-item">
+                  City List
+                </a>
+                <hr class="navbar-divider">
+
+              </div>
+            </div>
+          </div>
+      
+          <div class="navbar-end">
+            <div class="navbar-item">
+              <div class="buttons">
+                <a class="button is-primary">
+                  <strong>Sign up</strong>
+                </a>
+                <a class="button is-light">
+                  Log in
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+<!-- Page Below Navbar -->
+<section class="section">
+    <div class="columns">
+    <div class="column">
+        <!-- Left Sidebar / First Column -->
+
+    </div>
+    <div class="column is-half">
+        <!-- Main Column -->
+        <div class="container is-fluid">
+            <div class="box">
+                <article class="media">
+                    <div class="media-left">
+                        <figure class="image is-64x64">
+                            <img src="#">
+                        </figure>
+                    </div>
+                </article>
+                <div class="content">
+                    <h3 class="title is-3">Mumbai</h3>
+                    <h4 class="subtitle is-5 has-text-weight-light">India</h4>
+                </div>
+            </div>
+        <div class="card">
+            <header class="card-header">
+                <p class="card-header-title" id="city">
+                    Mumbai
+                    <br>
+                    India
+                </p>
+                <p class="card-header-title">India</p>
+            </header>
+        </div>
+    </div>
+    </div>
+    <div class="column">
+        <!-- Right Sider / Third Column -->
+    </div>
+</div>
+      
+
+
+
+
+
+    <nav class="navbar navbar-expand-sm navbar-inverse bg-primary navbar-dark" id="nav1">
+        <h1 class="navbar-brand mb-0 text-white navbar-light">WeatherPro</h1>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+            <ul class="navbar-nav" id="text-white">
+                <li class="nav-item active text-white">
+                    <a href="#" class="nav-link">Search</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Today</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">5-Day Forecast</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">City List</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+</section>
+</body>
+</html>
