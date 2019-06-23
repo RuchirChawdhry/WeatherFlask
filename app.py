@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from model import *
 from os import path, chdir
 from datetime import datetime
+import pandas as pd
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
@@ -18,7 +19,7 @@ class City(db.Model):
 def index():
     return render_template('index.html')
 
-@app.route('/')
+@app.route('/weather')
 def weather():
     api_key_1 = "0e71adedcd098647c1ef46440888cb56"
     api_key_2 = "d7a597fef845c4a34a8604a08a589a15"
@@ -32,9 +33,9 @@ def weather():
     data = requests.get(url).json()
     
     city_info = {
-        "country" : data['sys']['country']
-        "opw_id" : data['id']
-        "cod" : data['cod']
+        "country" : data['sys']['country'],
+        "opw_id" : data['id'],
+        "cod" : data['cod'],
         "timezone" : data['timezone']
     }
 
@@ -48,7 +49,7 @@ def weather():
         "humid" : data['main']['humidity'],
         "wind_speed" : data['wind']['speed'],
         "wind_deg" : data['wind']['deg'],
-        "clouds" : data['clouds']
+        "clouds" : data['clouds'],
         "icon" : data[weather][0]['icon']
     }
     
@@ -65,8 +66,31 @@ def weather():
     return weather_info
     return lat_long
     return sun_info
+
+
+@app.route('/citylist')
+def citylist():
+    THIS_FOLDER = path.dirname(path.abspath(__file__))
+    df = pd.read_json(THIS_FOLDER+"/city.list.json")
+    df = df.to_html()
+    # print(df)
+    return df.to_html()
+    return render_template("citylist.html")
+
+
+@app.route('/citylist')
+def citylist_():
+    return render_template("citylist.html")
+
+@app.route('/login')
+def login():
+    return render_template("login.html")
+
+@app.route('/register')
+def register():
+   return render_template("register.html")
         
 
 if __name__ == '__main__':
-    # app.run(host='127.0.0.1', port=8000, debug=True)
-    weather()
+    app.run(host='127.0.0.1', port=8000, debug=True)
+    # citylist()
