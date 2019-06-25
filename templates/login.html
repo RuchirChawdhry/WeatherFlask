@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP:300&display=swap" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -90,23 +91,26 @@
                         <h1 class="title">
                           Login
                         </h1>
+<form action="/login" method="POST">
+                        {{ form.hidden_tag() }}
                         <div class="box">
                           <label class="label">Email</label>
                           <p class="control has-icon has-icons-right">
-                            <input class="input" type="text" placeholder="jsmith@example.org">
-                            <span class="icon is-small">
+                              {{ form.username(placeholder="Enter your username", class_="input") }}
+                               <span class="icon is-small">
                               <i class="fa fa-warning"></i>
                             </span>
-                            <span class="help is-danger">{{Error Message}}</span>
+                            <!-- <span class="help is-danger">Error Message</span> -->
                           </p>
                           <label class="label">Password</label>
                           <p class="control has-icon has-icons-right">
-                            <input class="input" type="password" placeholder="●●●●●●●">
+                            {{ form.password(placeholder="●●●●●●●", class_="input")  }}
                             <span class="icon is-small">
                               <i class="fa fa-warning"></i>
                             </span>
-                            <span class="help is-danger">{{Error Message}}</span>
+                            <!-- <span class="help is-danger">Error Message</span> -->
                           </p>
+                        </form>
                           <hr>
                           <p class="control">
                             <button class="button is-primary">Login</button>
