@@ -251,7 +251,12 @@
 
 </section>
 
-{{ weather.citySunrise }}
+{% for key,value in weather.items() %}
+
+{{ key }} = {{ value }} <br>
+
+{% endfor %}
+
 
 
 </body>
