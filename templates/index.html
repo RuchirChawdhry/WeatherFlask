@@ -29,6 +29,115 @@
     {
         font-family: 'Noto Sans JP';
     }
+
+    .weather-card
+    {
+      margin: 0 auto;
+      margin-top: 5%;
+      padding: 5px 30px;
+      width: 290px;
+      height: 470px;
+      border-radius: 3px;
+      background-color: #fff;
+      box-shadow: 1px 2px 10px rgba(0, 0, 0, .2);
+    }
+
+    .h1-card {
+      position: relative;
+      float: right;
+      color: #666;
+      font-weight: 300;
+      font-size: 6.59375em;
+      line-height: 2em;
+    }
+
+    .h2-card {
+      position: relative;
+      font-weight: 300;
+      font-size: 2.25em;
+    }
+
+    .h3-card {
+      position: relative;
+      float: left;
+      margin-right: 33px;
+      color: #777;
+      font-weight: 400;
+      font-size: 1em;
+    }
+    
+    .dot {
+      font-size: .9em;
+
+    }
+
+    .card-span {
+      position: relative;
+      margin-left: 24px;
+      color: #999;
+      font-weight: 300;
+    }
+
+    .card-table {
+      position: relative;
+      top: 10px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .weather-card-table-days {
+      padding-bottom: 32px;
+    }
+
+    .weather-card-table-max-row {
+      display: table-table-row;
+      vertical-align: inherit;
+      border-color: inherit;
+      padding-bottom: 7px;
+      text-align: center;
+
+
+    }
+
+    .weather-card-table-min-row {
+      padding-bottom: 7px;
+      font-size: .9em;
+      text-align: right;
+    }
+
+    .cloud {
+    position: absolute;
+    top: 60px;
+    left: 30px;
+  }
+
+  .cloud:before,
+  .cloud:after {
+      position: absolute;
+      display: block;
+      content: "";
+  }
+
+  .cloud:before {
+      margin-left: -10px;
+      width: 51px;
+      height: 18px;
+      background: #fff;
+  }
+
+  .cloud:after {
+      position: absolute;
+      top: -10px;
+      left: -22px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 50px -6px 0 6px #fff, 25px -19px 0 10px #fff;
+  }
+
+
+
 </style>
 <!-- Font Awesome for icons -->
 <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
@@ -75,10 +184,10 @@
           <div class="navbar-end">
             <div class="navbar-item">
               <div class="buttons">
-                <a class="button is-primary">
+                <a class="button is-primary" href="{{ url_for('register') }}">
                   <strong>Sign up</strong>
                 </a>
-                <a class="button is-light">
+                <a class="button is-light" href="{{ url_for('login') }}">
                   Log in
                 </a>
               </div>
@@ -96,36 +205,54 @@
     <div class="column is-half">
         <!-- Main Column -->
         <div class="container is-fluid">
-            <div class="box">
-                <article class="media">
-                    <div class="media-left">
-                        <figure class="image is-64x64">
-                            <img src="#">
-                        </figure>
-                    </div>
-                </article>
-                <div class="content">
-                    <h3 class="title is-3">Mumbai</h3>
-                    <h4 class="subtitle is-5 has-text-weight-light">India</h4>
-                </div>
-            </div>
-        <div class="card">
-            <header class="card-header">
-                <p class="card-header-title" id="city">
-                    Mumbai
-                    <br>
-                    India
-                </p>
-                <p class="card-header-title">India</p>
-            </header>
+
+            
+        <p></p>
+        <div class="weather-card">
+          <h2 class="h2-card">Asmara</h2>
+          <h3 class="h3-card">Cloudy<span class="card-span"><span class="dot">•</span> Precip 0%</span></h3>
+          <h1 class="h2-card">25°C</h1>
+          <div class="sky">
+
+          </div>
+          <table class="card-table">
+            <tbody>
+              <tr class="weather-card-table-days">
+                <td class="weather-card-table-days">MON</td>
+                <td>TUE</td>
+                <td>WED</td>
+                <td>THUR</td>
+                <td>FRI</td>
+              </tr>
+              <tr class="weather-card-table-max-row">
+                <td class="weather-card-table-max-row">10</td>
+                <td>10</td>
+                <td>10</td>
+                <td>10</td>
+                <td>10</td>
+              </tr>
+              <tr class="weather-card-table-min-row">
+                <td class="weather-card-table-min-row">3</td>
+                <td>3</td>
+                <td>3</td>
+                <td>3</td>
+                <td>3</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
     </div>
     </div>
+
     <div class="column">
         <!-- Right Sider / Third Column -->
     </div>
 </div>
 
 </section>
+
+{{ weather.citySunrise }}
+
+
 </body>
 </html>
