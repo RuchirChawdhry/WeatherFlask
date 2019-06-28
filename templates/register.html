@@ -3,86 +3,104 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  {% block head %}
-  <title>WeatherPro - Sign-Up!</title>
-  {{ super() }}
-  {% endblock %}
-  
-  {% block title %}
-  {{ super() }}
-  {% endblock %}
-  
-  {% block body %}
-  {{ super() }}
-
-        <section class="hero is-fullheight-with-navbar is-light is-bold">
-                <div class="hero-body">
-                  <div class="container">
-                    <div class="columns is-vcentered">
-                      <div class="column is-4 is-offset-4">
-                        <h1 class="title">
-                          Register
-                        </h1>
-                        <div class="box">
-
-           {% from "_formhelpers.html" import render_field %}
-
-                        <form action="/signup" method="POST">
-                          {{ form.csrf_token }}
-                          <div class="field">
-                            
-                            {{ form.username.label(class_="label has-text-weight-light") }}
-                            <p class="control has-icon has-icons-left">
-                            {{ form.username(**{'class':'input','placeholder':'Enter your username'}) }}
-                            <span class="icon is-small is-left">
-                                <i class="fas fa-user"></i>
-                              </span>
-                    </p>
-                  </div>
-                    <div class="field">
-                        {{ form.email.label(class_="label has-text-weight-light") }}
-                          <p class="control has-icon has-icons-left">
-                        {{ form.email(**{'class':'input','placeholder':'your_email@gmail.com'}) }}
-                            <span class="icon is-small is-left">
-                                    <i class="fas fa-envelope"></i>
-                                  </span>
-                        </p>
-                    </div>
-                    <div class="field">
-                        {{ form.password.label(class_="label has-text-weight-light") }}
-                          <p class="control has-icon has-icons-left">
-                        {{ form.password(**{'class':'input','placeholder':'●●●●●●●'}) }}
-                        <span class="icon is-small is-left">
-                            <i class="fas fa-lock"></i>
-                        </span>  
-                        </p>
-                    </div>
-                    <div class="field">
-                        {{ form.confirmPassword.label(class_="label has-text-weight-light") }}
-                        <p class="control has-icon has-icons-left">
-                        {{ form.confirmPassword(**{'class':'input','placeholder':'●●●●●●●'}) }}
-                        <span class="icon is-small is-left">
-                            <i class="fas fa-lock"></i>
-                        </span>  
-                        </p>
-                          <hr>
-
-                          <p class="control">
-                              {{ form.submit(**{'class':'button is-primary'}) }}
-                              <button class="button is-default" type="reset">Cancel</button>
-                          </p>
-                        </div>
-                        </div>
-                        <p class="has-text-centered">
-                          <a href="{{ url_for('login') }}}">Login</a>
-                          | 
-                          <a href="#">Forgot password</a>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </section>
+{% block head %}
+<title>WeatherPro - Sign-Up!</title>
+{{ super() }}
 {% endblock %}
+
+{% block title %}
+{{ super() }}
+{% endblock %}
+
+{% block body %}
+{{ super() }}
+
+<section class="hero is-fullheight-with-navbar is-light is-bold">
+  <div class="hero-body">
+    <div class="container">
+      <div class="columns is-vcentered">
+        <div class="column is-4 is-offset-4">
+          <h1 class="title">
+            Register
+          </h1>
+          <div class="box">
+
+            {% from "_formhelpers.html" import render_field %}
+
+            <form action="/signup" method="POST">
+              {{ form.csrf_token }}
+              <div class="field">
+
+                {{ form.username.label(class_="label has-text-weight-light") }}
+                
+                <p class="control has-icon has-icons-left">
+                  
+                  {{ form.username(**{'class':'input','placeholder':'Enter your username'}) }}
+                 
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-user"></i>
+                  </span>
+                </p>
+              </div>
+              <div class="field">
+               
+                {{ form.email.label(class_="label has-text-weight-light") }}
+                
+                <p class="control has-icon has-icons-left">
+                 
+                  {{ form.email(**{'class':'input','placeholder':'your_email@gmail.com'}) }}
+                 
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-envelope"></i>
+                  </span>
+                </p>
+              </div>
+              <div class="field">
+                
+                {{ form.password.label(class_="label has-text-weight-light") }}
+                
+                <p class="control has-icon has-icons-left">
+                  
+                  {{ form.password(**{'class':'input','placeholder':'●●●●●●●'}) }}
+                  
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                  </span>
+                </p>
+              </div>
+              <div class="field">
+                
+                {{ form.confirmPassword.label(class_="label has-text-weight-light") }}
+                
+                <p class="control has-icon has-icons-left">
+                  
+                  {{ form.confirmPassword(**{'class':'input','placeholder':'●●●●●●●'}) }}
+                  
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                  </span>
+                </p>
+                <hr>
+
+                <p class="control">
+                  
+                  {{ form.submit(**{'class':'button is-primary'}) }}
+                  
+                  <button class="button is-default" type="reset">Cancel</button>
+                </p>
+              </div>
+          </div>
+          <p class="has-text-centered">
+            <a href="{{ url_for('login') }}}">Login</a>
+            |
+            <a href="#">Forgot password</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+{% endblock %}
+
 </html>
