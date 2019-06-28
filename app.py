@@ -1,30 +1,84 @@
 import requests
-from flask import Flask, render_template, request, url_for
-from flask_login import LoginManager
+from flask import Flask, render_template, request, url_for, redirect
+from flask_login import LoginManager, UserMixin, current_user, login_user, logout_user, login_required, login_url
 from flask_sqlalchemy import SQLAlchemy
-# from model import *
 from os import path, chdir
 from datetime import date, datetime
 import pandas as pd
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField
-from wtforms.validators import InputRequired, Email, Length, DataRequired
+from wtforms import Form, StringField, PasswordField, BooleanField, SubmitField, validators
+from wtforms.validators import InputRequired, Email, Length, DataRequired, EqualTo, ValidationError
+from werkzeug.security import generate_password_hash, check_password_hash
+
 
 app = Flask(__name__)
+login = LoginManager(app)
 app.config.from_pyfile('config.py')
 db = SQLAlchemy(app)
 
 # Login form fields (flask_wtf & wtforms)
 class LoginForm(FlaskForm):
-    username = StringField('username', validators=[InputRequired(), Length(min=3, max=20)])
-    password = PasswordField('password', validators=[InputRequired(), Length(min=6, max = 49)] )
+    username = StringField('username', validators=[DataRequired(), Length(min=3, max=20)])
+    password = PasswordField('password', validators=[DataRequired(), Length(min=4, max = 49), EqualTo('confirmPassword', message='passwords must match')])
+    confirmPassword = PasswordField('Repeat Password')
     remember = BooleanField('Remember Me')
 
 # Register form fields (flask_wtf & wtforms)    
 class RegisterForm(FlaskForm):
-    username = StringField('username', validators=[InputRequired(), Length(min=3, max=20)])
-    password = PasswordField('password', validators=[InputRequired(), Length(min=6, max=49)])
-    email = StringField('email', validators=[InputRequired(), Email(message="invalid email"), Length(max=49)])
+    username = StringField('Username', validators=[InputRequired(), Length(min=3, max=20)])
+    password = PasswordField('Password', validators=[InputRequired(), Length(min=6, max=49)])
+    confirmPassword = PasswordField('Confirm Password', validators=[InputRequired(), EqualTo('password')])
+    email = StringField('Email', validators=[InputRequired(), Email(message="invalid email"), Length(max=49)])
+    submit = SubmitField('Sign-Up')
+    
+    def validate_username(self, username):
+        user = User.query.filter_by(username = username.data).first()
+        if user is not None:
+            raise ValidationError("Username already exists. Please use a different username.")
+
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user is not None:
+            raise ValidationError("Please use a different email address.")
+        
+    # def register(request):
+    #     form = RegistrationForm(request.POST)
+    #     if request.method == 'POST' and form.validate():
+    #         user = User()
+    #         user.username = form.username.expandtabs()
+    #         user.email = form.email.data
+    #         user.save()
+    #         redirect("signup")
+    #     return render_response('register.html', form=form)
+
+
+class User(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(255))
+    username = db.Column(db.String(255))
+    password = db.Column(db.String(255))
+    registerTime = db.Column(db.String(255))
+
+    # def __init__(self, username, id, active=True):
+    #   self.username = username
+    #   self.id = id
+    #   self.active = active
+    #   id = db.Column(db.Integer, primary_key=True)
+
+    
+    def set_password(self, password):
+        self.password = generate_password_hash(password, method="sha256")
+
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
+
+    def __repr__(self):
+        return f'<User {self.username}>'
+    
+# @login.user_loader
+# def load_user(id):
+#     return User.query.get(id)
+
 
 # Table that stores the immediate weather report of the city queried
 class cityToday(db.Model):
@@ -77,7 +131,7 @@ db.create_all()
 #     return render_template('index.html')
 
 class Weather:
-    @app.route('/weather')
+    @app.route('/')
     def weather():
         api_key_1 = "0e71adedcd098647c1ef46440888cb56"
         api_key_2 = "d7a597fef845c4a34a8604a08a589a15"
@@ -123,11 +177,14 @@ class Weather:
         # combined_dict = {**weather_info, **lat_long, **sun_info}
 
         weather = cityToday(**weather_info, **lat_long, **sun_info)
+        dumped_dict = {**weather_info, **lat_long, **sun_info}
+        # weather_list = list(weather)
+        
         
         db.session.add(weather)
         db.session.commit()
         
-        return render_template('index.html')
+        return render_template('index.html', weather=dumped_dict)
 
 class Forecast():
     @app.route('/forecast')
@@ -142,6 +199,8 @@ class Forecast():
 
         data = requests.get(url).json()
         cleaner_data = data["list"]
+        
+        # forecast_data = []
         
         for i in range(len(cleaner_data)):
             try:
@@ -185,10 +244,11 @@ class Forecast():
                 forecast = cityForecast(**forecast_dict)
                 db.session.add(forecast)
                 
-        db.session.commit()
-        print(**forecast_dict)
+                # forecast_data.append(forecast_dict)
                 
-        return render_template('index.html')
+        db.session.commit()
+                
+        return render_template('index.html', forecast_dict=forecast_dict)
 
 # Testing page to test jinja template:
 @app.route('/func.html')
@@ -219,21 +279,39 @@ def citylist():
 # The login route. Posts data to users table if the data passes the validation tests.
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    
     form = LoginForm()
-    
+
     if form.validate_on_submit():
-        return form.username.data + form.password.data
-    
+        user = User.query.filter_by(username=form.username.data).first()
+        if user is None or not user.check_password(form.password.data):
+            flash("Invalid username or password.")
+            return redirect(url_for("login"))
+        login_user(user, remember = form.remember_me.data)
+        return redirect(url_for("index"))
     return render_template("login.html", form=form)
 
 # The registration route. Posts data to users table if the data passes the validation tests.
 @app.route('/signup', methods=['GET', 'POST'])
 def register():
-    form = RegisterForm()
+    
+    form = RegisterForm(request.form)
+    
+    r_dict = {
+        'email' : form.email.data,
+        'username' : form.username.data,
+        'password' : form.password.data,
+        'registerTime' : datetime.now()
+    }
+    print(r_dict)
     
     if form.validate_on_submit():
-        return form.username.data + form.email.data + form.password.data
-    
+        user = User(**r_dict)
+        db.session.add(user)
+        db.session.commit()
+        # flash("Cograts! You are now a registered user!")
+        return redirect(url_for("login"))
+        
     return render_template("register.html", form=form)
         
 
